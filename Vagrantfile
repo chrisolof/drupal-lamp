@@ -24,6 +24,9 @@ data = JSON.parse(File.read(json_path))
 
 Vagrant.configure("2") do |config|
 
+  config.nfs.map_uid = 0
+  config.nfs.map_gid = 0
+
   config.vm.network :forwarded_port, guest: 8080, host: 8000 # tomcat
   config.vm.network :forwarded_port, guest: 80, host: 8080 # drupal
 
@@ -39,12 +42,12 @@ Vagrant.configure("2") do |config|
 
     server.vm.provider :virtualbox do |v|
       v.name = "drupal"
-      v.customize ["modifyvm", :id, "--memory", "1024"]
+      v.customize ["modifyvm", :id, "--memory", "4096"]
     end
 
     server.vm.network :private_network, ip: "192.168.50.5"
     server.vm.hostname = "drupal.local"
-    server.vm.synced_folder "assets", "/assets", :nfs => false, :owner => "www-data", :group => "www-data"
+    server.vm.synced_folder "assets", "/assets", :nfs => true
     server.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "chef/cookbooks"
       chef.roles_path = "chef/roles"
