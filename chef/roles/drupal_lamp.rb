@@ -24,5 +24,6 @@ env_run_lists "_default" => [
                 "recipe[drupal::drush]",
                 "recipe[drupal::mysql]",
                 "recipe[drupal::solr]",
-                "recipe[drupal]"
+                "recipe[drupal]",
+                "recipe[drupal::compass]"
               ]
