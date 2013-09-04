@@ -23,6 +23,10 @@ json_path = ENV['DRUPAL_LAMP'].nil? ? ".drupal_lamp.json" : ENV['DRUPAL_LAMP']
 data = JSON.parse(File.read(json_path))
 
 Vagrant.configure("2") do |config|
+
+  config.vm.network :forwarded_port, guest: 8080, host: 8000 # tomcat
+  config.vm.network :forwarded_port, guest: 80, host: 8080 # drupal
+
   config.vm.define :drupaldev do |server|
     server.ssh.forward_agent = true
     server.vm.box = "precise64"
@@ -35,7 +39,7 @@ Vagrant.configure("2") do |config|
 
     server.vm.provider :virtualbox do |v|
       v.name = "drupal"
-      v.customize ["modifyvm", :id, "--memory", "4096"]
+      v.customize ["modifyvm", :id, "--memory", "1024"]
     end
 
     server.vm.network :private_network, ip: "192.168.50.5"
@@ -49,4 +53,5 @@ Vagrant.configure("2") do |config|
       chef.json = data
     end
   end
+end
 end

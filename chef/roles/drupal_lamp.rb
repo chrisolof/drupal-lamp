@@ -23,5 +23,6 @@ env_run_lists "_default" => [
                 "recipe[drupal::php]",
                 "recipe[drupal::drush]",
                 "recipe[drupal::mysql]",
-                "recipe[drupal]",
+                "recipe[drupal::solr]",
+                "recipe[drupal]"
               ]

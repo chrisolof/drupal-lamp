@@ -34,6 +34,12 @@
 [submodule "chef/cookbooks/drush"]
 	path = chef/cookbooks/drush
 	url = git://github.com/homemade/chef-drush.git
-[submodule "chef/cookbooks/rvm"]
-	path = chef/cookbooks/rvm
-	url = git://github.com/fnichol/chef-rvm.git
+[submodule "chef/cookbooks/drupal-solr"]
+	path = chef/cookbooks/drupal-solr
+	url = git://github.com/arknoll/drupal-solr.git
+[submodule "chef/cookbooks/java"]
+	path = chef/cookbooks/java
+	url = git://github.com/opscode-cookbooks/java.git
+[submodule "chef/cookbooks/tomcat"]
+	path = chef/cookbooks/tomcat
+	url = git://github.com/opscode-cookbooks/tomcat.git
