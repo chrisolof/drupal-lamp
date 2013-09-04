@@ -34,3 +34,6 @@
 [submodule "chef/cookbooks/drush"]
 	path = chef/cookbooks/drush
 	url = git://github.com/homemade/chef-drush.git
+[submodule "chef/cookbooks/rvm"]
+	path = chef/cookbooks/rvm
+	url = git://github.com/fnichol/chef-rvm.git
