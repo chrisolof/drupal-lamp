@@ -19,7 +19,7 @@ require 'json'
   downloaded by uncommenting the appropriate server.vm.box_url line below.
 
 =end
-json_path = ENV['DRUPAL_LAMP'].nil? ? ".drupal_lamp.json" : ENV['DRUPAL_LAMP']
+json_path = ENV['DRUPAL_LAMP'].nil? ? "/Users/arknoll/drupal-lamp/.drupal_lamp.json" : ENV['DRUPAL_LAMP']
 data = JSON.parse(File.read(json_path))
 
 Vagrant.configure("2") do |config|
@@ -52,6 +52,7 @@ Vagrant.configure("2") do |config|
       chef.cookbooks_path = "chef/cookbooks"
       chef.roles_path = "chef/roles"
       chef.data_bags_path = "chef/data_bags"
+      chef.add_role("solr")
       chef.add_role("drupal_lamp")
       chef.json = data
     end
