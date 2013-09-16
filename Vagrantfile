@@ -19,13 +19,10 @@ require 'json'
   downloaded by uncommenting the appropriate server.vm.box_url line below.
 
 =end
-json_path = ENV['DRUPAL_LAMP'].nil? ? "/Users/arknoll/drupal-lamp/.drupal_lamp.json" : ENV['DRUPAL_LAMP']
+json_path = ENV['DRUPAL_LAMP'].nil? ? ".drupal_lamp.json" : ENV['DRUPAL_LAMP']
 data = JSON.parse(File.read(json_path))
 
 Vagrant.configure("2") do |config|
-
-  config.nfs.map_uid = 0
-  config.nfs.map_gid = 0
 
   config.vm.network :forwarded_port, guest: 8080, host: 8000 # tomcat
   config.vm.network :forwarded_port, guest: 80, host: 8080 # drupal
@@ -34,7 +31,7 @@ Vagrant.configure("2") do |config|
     server.ssh.forward_agent = true
     server.vm.box = "precise64"
     #server.vm.box_url = "http://files.vagrantup.com/precise64_vmware_fusion.box"
-    #server.vm.box_url = "http://files.vagrantup.com/precise64.box"
+    server.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
     server.vm.provider "vmware_fusion" do |v|
       v.vmx["memsize"]  = "1024"
@@ -43,11 +40,15 @@ Vagrant.configure("2") do |config|
     server.vm.provider :virtualbox do |v|
       v.name = "drupaldev"
       v.customize ["modifyvm", :id, "--memory", "4096"]
+      v.customize ["modifyvm", :id, "--cpus", "4"]
     end
 
     server.vm.network :private_network, ip: "192.168.50.5"
     server.vm.hostname = "drupal.local"
-    server.vm.synced_folder "assets", "/assets", :nfs => true
+    # Comment both synced folder lines out if mounting assets folder via SSHFS
+    # Be sure to run the "connect" script after you spin up
+    #server.vm.synced_folder "assets", "/assets", :nfs => false, :owner => "www-data", :group => "www-data"
+    #server.vm.synced_folder "assets", "/assets", :nfs => true
     server.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "chef/cookbooks"
       chef.roles_path = "chef/roles"

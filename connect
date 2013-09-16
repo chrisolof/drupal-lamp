@@ -1,0 +1,43 @@
+#!/bin/bash
+
+
+# ! Fill this in with your local drupal-lamp assets folder location !
+
+LOCAL_ASSETS_DIR=~/projects/drupal-lamp/assets
+
+
+
+# Check this against your Vagrantfile to ensure it matches the IP of your
+# virtualized dev machine.
+
+VAGRANT_GUEST_IP=192.168.50.5
+
+
+
+# Define the virtualized machine's assets folder location
+REMOTE_ASSETS_DIR=/assets
+
+# This should point to your local Vagrant insecure_private_key file
+SSH_IDENTITY_FILE=~/.vagrant.d/insecure_private_key
+
+
+
+# Attempt to disconnect the mount so we can follow up with a fresh mount
+fusermount -u $LOCAL_ASSETS_DIR
+
+# If the local assets directory exists, clear it out (we can only mount to empty
+# directories)
+if [ -d "$LOCAL_ASSETS_DIR" ]; then
+  # Delete the local assets folder and everything in it
+  rm -rf -- $LOCAL_ASSETS_DIR
+  # Create the folder anew
+  mkdir $LOCAL_ASSETS_DIR
+fi
+
+# Mount the Vagrant guest's assets directory to the local assets directory
+sshfs -o idmap=user,IdentityFile=$SSH_IDENTITY_FILE vagrant@$VAGRANT_GUEST_IP:$REMOTE_ASSETS_DIR $LOCAL_ASSETS_DIR
+
+# Tell the user what just happened
+# TODO - test the output of the sshfs mount command and issue success or failure
+# exit message.  We're just assuming success at the moment.
+echo "Connected your local machine at $LOCAL_ASSETS_DIR to the Vagrant guest machine at $REMOTE_ASSETS_DIR."
