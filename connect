@@ -32,6 +32,9 @@ if [ -d "$LOCAL_ASSETS_DIR" ]; then
   rm -rf -- $LOCAL_ASSETS_DIR
   # Create the folder anew
   mkdir $LOCAL_ASSETS_DIR
+else
+  # Folder doesn't exist, so create it
+  mkdir $LOCAL_ASSETS_DIR
 fi
 
 # Mount the Vagrant guest's assets directory to the local assets directory
