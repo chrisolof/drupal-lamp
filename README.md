@@ -11,7 +11,7 @@ There are two requirements that you need to manage before you can begin.
 * You need to install virtualbox https://www.virtualbox.org/wiki/Downloads
 * You need to install vagrant 1.4.0 or greater http://www.vagrantup.com/downloads.html
 
-Installation
+Mac Installation
 ------------
 To install drupal lamp, you must have Vagrant and Virtual box already installed.
 
@@ -44,6 +44,24 @@ vagrant up
 
 The command will provision the machine and have you up and running in relatively no
 time.
+
+
+Ubuntu Linux 14.04 Installation:
+------------
+
+Ubuntu 14.04 ships with compatible versions of Vagrant and Virtualbox in the repos, making installation very simple.
+
+```
+sudo apt-get install git virtualbox vagrant ruby1.9.1-dev
+git clone git@github.com:newmediadenver/drupal-lamp.git
+cd drupal-lamp
+vagrant plugin install vagrant-omnibus
+vagrant plugin install vagrant-berkshelf --plugin-version 1.3.7
+vagrant up
+echo '192.168.50.5    example.local' | sudo tee -a /etc/hosts
+```
+
+The example site that ships with drupal-lamp is now available in your browser at http://example.local
 
 
 Configuration
